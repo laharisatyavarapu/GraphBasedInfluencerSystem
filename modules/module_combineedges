@@ -1,0 +1,43 @@
+import pandas as pd
+import os
+
+
+def combine_edges(folder_path, output_path):
+    print("Combining all .edges files...")
+
+    all_edges = []
+
+    for file in os.listdir(folder_path):
+        if file.endswith(".edges"):
+            file_path = os.path.join(folder_path, file)
+
+            df = pd.read_csv(file_path, sep=" ", names=["source", "target"])
+
+            all_edges.append(df)
+
+            print(f"Loaded: {file}")
+
+    # Combine all
+    combined_df = pd.concat(all_edges, ignore_index=True)
+
+    # Clean
+    combined_df = combined_df.drop_duplicates()
+    combined_df = combined_df[combined_df["source"] != combined_df["target"]]
+
+    print("\nFinal Shape:", combined_df.shape)
+
+    # Save
+    os.makedirs("outputs", exist_ok=True)
+    combined_df.to_csv(output_path, index=False)
+
+    print(f"\n✅ Saved to: {output_path}")
+
+    return combined_df
+
+
+# 👇 RUN
+if __name__ == "__main__":
+    combine_edges(
+        "data/twitter",     # folder with .edges files
+        "outputs/twitter_tar_edges.csv"
+    )

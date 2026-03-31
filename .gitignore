@@ -1,0 +1,24 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Raw & temporary data
+data/raw/
+data/temp/
+data/processed/
+
+# Large files
+*.zip
+*.txt
+*.mtx
+
+# System files
+.DS_Store
+
+# Optional: ignore all outputs except predictions
+outputs/*
+!outputs/twitter_predictions.csv
+!outputs/retweet_predictions.csv
